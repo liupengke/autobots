@@ -20,5 +20,8 @@
   "license": "BSD",
   "bugs": {
     "url": "https://github.com/liupengke/autobots/issues"
+  },
+  "dependencies": {
+    "swig": "~1.4.1"
   }
 }
