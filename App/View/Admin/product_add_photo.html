@@ -1,0 +1,45 @@
+{% extends 'admin.base.html' %}
+{% block page_css %}
+{% parent %}
+    <link rel="stylesheet" type="text/css" href="/resource/css/uploader/webuploader.css" />
+    <link rel="stylesheet" type="text/css" href="/resource/css/uploader/style.css" />
+{% endblock %}
+{% block "pageTitle" %}
+    {% if isEdit%}Modify{% else %}Add{% endif%} photos for {{product.name}}
+{% endblock %}
+{% block "adminContent"%}
+<h3>上传照片</h3>
+<div>
+    <div id="wrapper">
+        <div id="container">
+            <!--头部，相册选择和格式选择-->
+
+            <div id="uploader">
+                <div class="queueList">
+                    <div id="dndArea" class="placeholder">
+                        <div id="filePicker"></div>
+                        <p>或将照片拖到这里，单次最多可选300张</p>
+                    </div>
+                </div>
+                <div class="statusBar" style="display:none;">
+                    <div class="progress">
+                        <span class="text">0%</span>
+                        <span class="percentage"></span>
+                    </div><div class="info"></div>
+                    <div class="btns">
+                        <div id="filePicker2"></div><div class="uploadBtn">开始上传</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var SYS_CONF = {
+        productId: {{product.id}}
+    }
+</script>
+<script type="text/javascript" src="/resource/js/lib/jquery.js"></script>
+<script type="text/javascript" src="/resource/js/uploader/webuploader.html5only.js"></script>
+<script type="text/javascript" src="/resource/js/uploader/upload.js"></script>
+{% endblock %}

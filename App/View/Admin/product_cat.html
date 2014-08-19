@@ -1,0 +1,184 @@
+{% extends 'admin.base.html' %}
+{% block "pageTitle" %}Category{% endblock %}
+{% block "adminContent"%}
+<style type="text/css">
+.confirm-edit, .cancel-edit{
+	display: none;
+}
+.edit-mode .cat-edit,
+.edit-mode .cat-del,
+.edit-mode .cat-sub{
+	display: none;
+}
+.edit-mode .confirm-edit,
+.edit-mode .cancel-edit{
+	display: inline-block;
+}
+
+.cat-name input{
+	display: none;
+}
+.edit-mode .cat-name span{
+	display: none;
+}
+.edit-mode .cat-name input{
+	display: block;
+}
+.cat-hot label{
+	display: none;
+}
+.edit-mode .cat-hot label{
+	display: inline-block;
+}
+.edit-mode .cat-hot span{
+	display: none;
+}
+</style>
+<table id="catList" class="table">
+	<thead>
+    	<th style="width:10%">#</th>
+    	<th style="width:30%">Category Name</th>
+    	<th style="width:30%">Hot</th>
+    	<th style="width:30%"></th>
+    </thead>
+	<tbody>
+		{% for index,item in list %}
+		<tr data-id="{{item.id}}">
+			<td>{{index+1}}</td>
+			<td class="cat-name">
+				<span>{{item.name}}</span>
+			</td>
+			<td class="cat-hot">
+				<span>{%if item.hot%}yes{%else%}no{%endif%}</span>
+			</td>
+			<td>
+				<a type="button" href="/admin/product/subcat?id={{item.id}}" class="cat-sub btn btn-default btn-sm">
+				  <span class="glyphicon glyphicon-zoom-in"></span> View Sub-Category
+				</a>
+				<button type="button" class="cat-edit btn btn-default btn-sm">
+				  <span class="glyphicon glyphicon-pencil"></span> 编辑
+				</button>
+				<button type="button" class="cat-del btn btn-danger btn-sm">
+				  <span class="glyphicon glyphicon-remove"></span> 删除
+				</button>
+
+				<button type="button" class="confirm-edit btn btn-default btn-sm">
+				  <span class="glyphicon"></span> 确认
+				</button>
+				<button type="button" class="cancel-edit btn btn-danger btn-sm">
+				  <span class="glyphicon"></span> 取消
+				</button>
+			</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+<div class="modal fade add-category-dia">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title">Add Category</h4>
+			</div>
+			<form class="form-horizontal" role="form">
+				<div class="modal-body">
+					<div class="form-group">
+					    <label for="inputName" class="col-sm-2 control-label">Name</label>
+					    <div class="col-sm-10">
+					    	<input type="text" class="form-control" name="iptname" id="inputName" placeholder="name" required autofocus>
+					    </div>
+					</div>
+					<div class="form-group">
+					    <label class="col-sm-2 control-label">Hot</label>
+					    <div class="col-sm-10">
+					    	<label class="radio-inline">
+							  <input id="hotYes" type="radio" name="ishot" value="yes"> Yes
+							</label>
+							<label class="radio-inline">
+							  <input id="hotNo" type="radio" name="ishot" value="no" checked> No
+							</label>
+					    </div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-primary"> Add </button>
+				</div>
+			</form>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<button id="addCategory" type="button" class="btn btn-success btn-lg">
+	<span class="glyphicon glyphicon-plus"></span> Add Category
+</button>
+<script type="text/javascript" src="/resource/js/lib/jquery.js"></script>
+<script>
+	$('#addCategory').click(function(){
+		$('#inputName').val('');
+		$('#hotNo')[0].checked = true;
+		$('.modal').modal('show');
+	});
+	$('.add-category-dia form').submit(function(){
+		if(!$('#inputName').val()) return false;
+		$.post('/admin/product/addcat',{
+			name: this.iptname.value,
+			hot: this.ishot.value
+		},'json').always(function(){
+			location.reload();
+		});
+		return false;
+	});
+
+	$('#catList').delegate('.cat-edit', 'click', function(){
+		var tr = $(this).parents('tr'),
+			id = tr.data('id');
+		tr.addClass('edit-mode');
+		$('<input type="text" class="form-control" required>').appendTo(tr.find('.cat-name')).val(tr.find('.cat-name span').html());
+		var hotYes = $('<label class="radio-inline"><input type="radio" name="ishot_'+id+'" value="yes"> yes</label>').appendTo(tr.find('.cat-hot'));
+		var hotNo = $('<label class="radio-inline"><input type="radio" name="ishot_'+id+'" value="no"> no</label>').appendTo(tr.find('.cat-hot'));
+		if(tr.find('.cat-hot span').text()=='yes'){
+			hotYes.find('input')[0].checked = true;
+		}else{
+			hotNo.find('input')[0].checked = true;
+		}
+	});
+	$('#catList').delegate('.confirm-edit', 'click', function(){
+		var tr = $(this).parents('tr'),
+			id = tr.data('id'),
+			name = tr.find('.cat-name input').val(),
+			hot = tr.find('.cat-hot input[value="yes"]')[0].checked ? 'yes' : 'no';
+		if(!name) return;
+		$.post('/admin/product/editcat', {
+			id: id,
+			name: name,
+			hot: hot
+		}, 'json').fail(function(){
+			location.reload();
+		}).always(function(data){
+			if(!data || data.errno) location.reload();
+		});
+
+		tr.find('.cat-name span').html(name);
+		tr.find('.cat-hot span').html(hot);
+		tr.find('.cat-name input').remove();
+		tr.find('.cat-hot label').remove();
+		tr.removeClass('edit-mode');
+	});
+	$('#catList').delegate('.cancel-edit', 'click', function(){
+		var tr = $(this).parents('tr');
+		tr.find('.cat-name input').remove();
+		tr.find('.cat-hot label').remove();
+		tr.removeClass('edit-mode');
+	});
+	$('#catList').delegate('.cat-del', 'click', function(){
+		var tr = $(this).parents('tr'),
+			id = tr.data('id');
+		$.post('/admin/product/delcat',{id:id},'json').fail(function(){
+			location.reload();
+		}).always(function(data){
+			if(!data || data.errno) location.reload();
+		});
+		tr.remove();
+	});
+</script>
+{% endblock %}

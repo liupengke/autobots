@@ -1,0 +1,62 @@
+{% extends '../base/base.html' %}
+{% block page_css %}
+	<link rel="stylesheet" type="text/css" href="/resource/css/base.css">
+	<link rel="stylesheet" type="text/css" href="/resource/css/pub.css">
+	<link rel="stylesheet" type="text/css" href="/resource/css/slide.css">
+	<link rel="stylesheet" type="text/css" href="/resource/css/index.css">
+
+	{% if isEdit %}
+	<link rel="stylesheet" type="text/css" href="/resource/css/article-edit.css">
+	<script type="text/javascript" src="/resource/js/ckeditor/ckeditor.js"></script>
+	{% endif %}
+{% endblock %}
+
+{% block content %}
+	{% include "title.inc.html" %}
+	{% if isEdit %}
+	<div class="save-article-box">
+		<button type="button" class="save-article-btn"> + save article</button>
+	</div>
+	{% endif %}
+	<div class="content">
+		<div class="p-title-box">
+			<div class="page-title">About Us</div>
+			<div class="crumb">
+				<a href="home_en.html">Home</a>&nbsp;&gt;&gt;&nbsp;<a href="/index/about">About Us</a>&nbsp;&gt;&gt;&nbsp;N-Fire Max Mod
+			</div>
+		</div>
+		<div class="p-tab-box clearfix">
+			{% for tabindex,tab in tabList%}
+			<a href="/index/about?id={{tab.id}}" class="{% if curTab.id==tab.id%}cur-tab{%endif%}">{{tab.title}}</a>
+			{% endfor%}
+		</div>
+
+
+		<div class="about-content" contenteditable="true">
+			{{curTab.content}}
+		</div>
+	</div>
+	{% include "footer.inc.html" %}
+	<script type="text/javascript" src="/resource/js/lib/jquery.js"></script>
+	<script type="text/javascript" src="/resource/js/lib/require.js" data-main="/resource/js/index/index"></script>
+	{% if isEdit %}
+	<script type="text/javascript">
+	$(function(){
+		setTimeout(function(){
+
+			$('.about-content').focus()
+		}, 500);
+		$('.save-article-btn').click(function(){
+			var html = CKEDITOR.instances.editor1.getData();
+			$.post('/admin/about/edit',{
+				id: {{curTab.id}},
+				content: html
+			},function(data){
+				console.log(data);
+			},'json')
+		})
+	})
+	</script>
+	{% endif %}
+{% endblock %}
+

@@ -1,0 +1,48 @@
+{% extends '../base/base.html' %}
+{% block page_css%}
+	<link rel="stylesheet" type="text/css" href="/resource/css/base.css">
+	<style type="text/css">
+	ul{
+		margin: 10px;
+	}
+	li{
+		float: left;
+		width: 200px;
+		height: 200px;
+		border: 2px solid #999;
+		margin: 5px;
+		cursor: pointer;
+	}
+	li:hover{
+		border-color: red;
+		background-color: rgba(255,255,0,0.1);
+	}
+	li div{
+		width: 196px;
+		height: 196px;
+		margin: 2px;
+		background-size: contain;
+		background-position: center;
+		background-repeat: no-repeat;
+	}
+	</style>
+{% endblock %}
+{% block content %}
+<ul>
+	{% if imageList.length<=0%}
+	there is not any image!!
+	{% else %}
+	{% for index,url in imageList %}
+	<li><div style="background-image:url(/resource/img/system/{{url}})" data-url="/resource/img/system/{{url}}"></div></li>
+	{% endfor %}
+	{% endif %}
+</ul>
+<script type="text/javascript" src="/resource/js/lib/jquery.js"></script>
+<script type="text/javascript">
+	$('ul').delegate('div', 'click', function(){
+		var url = $(this).data('url');
+		window.opener.CKEDITOR.tools.callFunction({{funcNum}}, url);
+		window.close();
+	});
+</script>
+{% endblock %}

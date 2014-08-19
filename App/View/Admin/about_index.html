@@ -1,0 +1,85 @@
+{% extends 'admin.base.html' %}
+{% block "pageTitle" %}About Us{% endblock %}
+{% block "adminContent"%}
+<table id="titleList" class="table table-hover table-striped">
+	<thead>
+		<th>标题</th>
+		<th>操作</th>
+	</thead>
+	{% for index,titleData in titleList %}
+	<tr data-id="{{ titleData.id }}" data-index="{{ titleData.index }}">
+		<td>{{ titleData.title }}</td>
+		<td>
+			<button type="button" class="about-edit btn btn-default btn-sm">
+			  <span class="glyphicon glyphicon-pencil"></span> 编辑
+			</button>
+			<button type="button" class="about-del btn btn-danger btn-sm">
+			  <span class="glyphicon glyphicon-remove"></span> 删除
+			</button>
+			{% if index!=0 %}
+			<button type="button" class="about-up btn btn-default btn-sm">
+			  <span class="glyphicon glyphicon-arrow-up"></span> 前移
+			</button>
+			{% endif %}
+			{% if index<titleList.length-1 %}
+			<button type="button" class="about-down btn btn-default btn-sm">
+			  <span class="glyphicon glyphicon-arrow-down"></span> 后移
+			</button>
+			{% endif %}
+		</td>
+	</tr>
+	{% endfor %}
+</table>
+<button type="button" class="add-new btn btn-success btn-lg">
+  <span class="glyphicon glyphicon-plus"></span> 添加新Tab
+</button>
+<script type="text/javascript" src="/resource/js/lib/jquery.js"></script>
+<script type="text/javascript">
+$(function(){
+	$('.add-new').click(function(){
+		var title = prompt();
+		if(title){
+			$.post('/admin/about/add',{title: title},function(data){
+				if(data.errno){
+					alert(data.errmsg);
+				}else{
+					location.reload();
+				}
+			}, 'json');
+		}
+	});
+
+	$('#titleList').delegate('.about-edit', 'click', function(){
+		var id = $(this).parents('tr').data('id');
+		window.open('/index/about?isEdit=1&id='+id);
+	}).delegate('.about-del', 'click', function(){
+		var id = $(this).parents('tr').data('id');
+		$.post('/admin/about/del', {id: id}, function(data){
+			if(data.errno){
+				alert(data.errmsg);
+			}else{
+				location.reload();
+			}
+		})
+	}).delegate('.about-up', 'click', function(){
+		var id = $(this).parents('tr').data('id');
+		$.post('/admin/about/up', {id: id}, function(data){
+			if(data.errno){
+				alert(data.errmsg);
+			}else{
+				location.reload();
+			}
+		})
+	}).delegate('.about-down', 'click', function(){
+		var id = $(this).parents('tr').data('id');
+		$.post('/admin/about/down', {id: id}, function(data){
+			if(data.errno){
+				alert(data.errmsg);
+			}else{
+				location.reload();
+			}
+		})
+	});
+})
+</script>
+{% endblock %}

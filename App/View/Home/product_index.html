@@ -1,0 +1,85 @@
+{% extends '../base/base.html' %}
+{% block title %}Poker's Blog{% endblock %}
+{% block page_css %}
+	<link rel="stylesheet" type="text/css" href="/resource/css/base.css">
+	<link rel="stylesheet" type="text/css" href="/resource/css/pub.css">
+	<link rel="stylesheet" type="text/css" href="/resource/css/product.css">
+{% endblock %}
+
+{% block content %}
+	{% include "title.inc.html" %}
+	<div class="product-list clearfix">
+		{% include "cat.inc.html" %}
+		<div class="p-panel">
+			<div class="p-title-box">
+				<div class="page-title">Products</div>
+				<div class="crumb">
+					<a href="home_en.html">Home</a>&nbsp;&gt;&gt;&nbsp;<a href="p_en.html">Products</a>&nbsp;&gt;&gt;&nbsp;N-Fire Max Mod
+				</div>
+			</div>
+			<div class="p-list clearfix">
+				<div class="p-item">
+					<div class="p-img">
+						<a href="/product/id"><img src="/resource/img/demo/104.jpg"></a>
+					</div>
+					<div class="p-name"><a href="">eGo VV Rainbow Battery</a></div>
+				</div>
+				<div class="p-item">
+					<div class="p-img">
+						<a href="/product/id"><img src="/resource/img/demo/104.jpg"></a>
+					</div>
+					<div class="p-name"><a href="">eGo VV Rainbow Battery</a></div>
+				</div>
+				<div class="p-item">
+					<div class="p-img">
+						<a href="/product/id"><img src="/resource/img/demo/104.jpg"></a>
+					</div>
+					<div class="p-name"><a href="">eGo VV Rainbow Battery</a></div>
+				</div>
+				<div class="p-item">
+					<div class="p-img">
+						<a href="/product/id"><img src="/resource/img/demo/104.jpg"></a>
+					</div>
+					<div class="p-name"><a href="">eGo VV Rainbow Battery</a></div>
+				</div>
+				<div class="p-item">
+					<div class="p-img">
+						<a href="/product/id"><img src="/resource/img/demo/104.jpg"></a>
+					</div>
+					<div class="p-name"><a href="">eGo VV Rainbow Battery</a></div>
+				</div>
+				<div class="p-item">
+					<div class="p-img">
+						<a href="/product/id"><img src="/resource/img/demo/104.jpg"></a>
+					</div>
+					<div class="p-name"><a href="">eGo VV Rainbow Battery</a></div>
+				</div>
+				<div class="p-item">
+					<div class="p-img">
+						<a href="/product/id"><img src="/resource/img/demo/104.jpg"></a>
+					</div>
+					<div class="p-name"><a href="">eGo VV Rainbow Battery</a></div>
+				</div>
+				<div class="p-item">
+					<div class="p-img">
+						<a href="/product/id"><img src="/resource/img/demo/104.jpg"></a>
+					</div>
+					<div class="p-name"><a href="">eGo VV Rainbow Battery</a></div>
+				</div>
+			</div>
+			<div class="page-bar">
+				Total<span class="meta">55</span>Records
+				<span>First Page</span>
+			    <span>Prev Page</span>
+			    <span class="meta">Number 1/5 Page</span>
+			    <a href="p_13_0_en.html">Next Page</a>
+			    <a href="p_49_0_en.html">Last Page</a>
+			</div>
+		</div>
+	</div>
+	{% include "hot-list.inc.html" %}
+	{% include "footer.inc.html" %}
+{% endblock %}
+
+{% block page_js %}
+{% endblock %}

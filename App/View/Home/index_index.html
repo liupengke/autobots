@@ -1,1 +1,109 @@
-hello, thinkjs!
+{% extends '../base/base.html' %}
+{% block page_css %}
+	<link rel="stylesheet" type="text/css" href="/resource/css/base.css">
+	<link rel="stylesheet" type="text/css" href="/resource/css/pub.css">
+	<link rel="stylesheet" type="text/css" href="/resource//css/slide.css">
+	<link rel="stylesheet" type="text/css" href="/resource//css/index.css">
+{% endblock %}
+
+{% block content %}
+	{% include "title.inc.html" %}
+	<div class="slide">
+		<div class="slide-item-box">
+			<div class="slide-item slide-cur-item" style="background-image:url(/resource/img/demo/717.jpg)"></div>
+			<div class="slide-item" style="background-image:url(/resource/img/demo/716.jpg)"></div>
+			<div class="slide-item" style="background-image:url(/resource/img/demo/715.jpg)"></div>
+			<div class="slide-item" style="background-image:url(/resource/img/demo/680.jpg)"></div>
+		</div>
+
+		<div class="slide-btn-box">
+			<button class="cur-slide-btn" data-index="0"></button>
+			<button data-index="1"></button>
+			<button data-index="2"></button>
+			<button data-index="3"></button>
+		</div>
+	</div>
+	{% include "hot-list.inc.html" %}
+	<div class="new-product">
+		<div class="title">New Products</div>
+		<ul>
+			<li>
+				<a href="">
+					<img src="/resource/img/demo/104.jpg">
+					<div>N-Fire LA2 Tank</div>
+					<span>More&gt;&gt;</span>
+				</a>
+			</li>
+			<li>
+				<a href="">
+					<img src="/resource/img/demo/105.jpg">
+					<div>N-Fire LA2 Tank</div>
+					<span>More&gt;&gt;</span>
+				</a>
+			</li>
+			<li>
+				<a href="">
+					<img src="/resource/img/demo/106.jpg">
+					<div>N-Fire LA2 Tank</div>
+					<span>More&gt;&gt;</span>
+				</a>
+			</li>
+			<li>
+				<a href="">
+					<img src="/resource/img/demo/107.jpg">
+					<div>N-Fire LA2 Tank</div>
+					<span>More&gt;&gt;</span>
+				</a>
+			</li>
+		</ul>
+	</div>
+
+	<div class="more-info">
+		<div class="item">
+			<div class="title">
+				<span>Company Brief</span>
+				<a href="">More</a>
+			</div>
+			<a href=""><img src="/resource/img/demo/about-us.jpg"></a>
+			<div class="desc">Shenzhen Wanna Technology Co., Ltd. was founded in 2011, producing healthy e-cigarettes, electronic cigarettes, cigarette holders and electronic cigars.</div>
+		</div>
+
+		<div class="item">
+			<div class="title">
+				<span>Info</span>
+				<a href="">More</a>
+			</div>
+			<a href=""><img src="/resource/img/demo/map.jpg"></a>
+			<div class="desc">
+				Telephone:086-0755-23579475<br>
+		   		E-mail:services@smokjoy.com<br>
+		   		Post Code:518000<br>
+		   		Address:No.821,Block A,Ming You Industrial Products Displaying&amp;Purchasing center,Baoan District,Shenzhen City,China</div>
+		</div>
+
+		<div class="item">
+			<div class="title">
+				<span>News</span>
+				<a href="">More</a>
+			</div>
+			<a href=""><img src="/resource/img/demo/news.jpg"></a>
+			<div class="desc">
+				<div class="in">
+		     		<a class="ellipsis" href="md_3_3_en.html">Smokjoy at CES Show 2014</a>
+		     		<span>2013-12-03</span>
+		   		</div>
+		   		<div class="in">
+		     		<a class="ellipsis" href="md_3_3_en.html">Smokjoy at CES Show 2014</a>
+		     		<span>2013-12-03</span>
+		   		</div>
+		   		<div class="in">
+		     		<a class="ellipsis" href="md_3_3_en.html">Smokjoy at CES Show 2014</a>
+		     		<span>2013-12-03</span>
+		   		</div>
+			</div>
+		</div>
+	</div>
+	{% include "footer.inc.html" %}
+	<script type="text/javascript" src="/resource/js/lib/require.js" data-main="/resource/js/index/index"></script>
+{% endblock %}
+

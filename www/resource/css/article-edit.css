@@ -1,0 +1,28 @@
+.save-article-box{
+	width: 960px;
+	margin: 0 auto;
+	text-align: left;
+}
+.save-article-btn{
+	margin: 5px;
+	color: #fff;
+	background-color: #5cb85c;
+	border: 1px solid #4cae4c;
+	display: block;
+	padding: 10px 16px;
+	font-size: 18px;
+	font-weight: 400;
+	line-height: 1.33;
+	text-align: center;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	border-radius: 6px;
+}
+.save-article-btn:hover{
+	color: #fff;
+	background-color: #449d44;
+	border-color: #398439;
+}

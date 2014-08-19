@@ -1,0 +1,93 @@
+{% extends 'admin.base.html' %}
+{% block "pageTitle" %}Product{% endblock %}
+{% block "adminContent"%}
+<style type="text/css">
+.my-row, .search-row{
+	padding: 5px 0;
+	border-bottom: 1px dotted #999;
+}
+</style>
+<div class="row my-row">
+	<button  type="button" class="btn btn-info btn-lg" style="float:left">
+		<span class="glyphicon glyphicon-search"></span> Search
+	</button>
+
+	<a href="/admin/product/addCat" type="button" class="btn btn-info btn-lg" style="float:right;margin: 0 1em;">
+		<span class="glyphicon glyphicon-plus"></span> Add Category
+	</a>
+
+	<a href="/admin/product/add" type="button" class="btn btn-success btn-lg" style="float:right">
+		<span class="glyphicon glyphicon-plus"></span> Add Product
+	</a>
+
+	
+</div>
+<div class="row my-row">
+	<div class="col-md-1">Key Word</div>
+	<div class="col-md-4">
+		<div class="input-group">
+	    	<input type="text" placeholder="keyword" class="form-control">
+	    </div>
+	</div>
+</div>
+<div class="row my-row">
+	<div class="col-md-1">Category</div>
+	<div class="col-md-4">
+		<select name="cid" required class="form-control">
+			<option value="-1">all</option>
+			{%for index,cls in classList%}
+			<option value="{{cls.id}}">{{cls.name}}</option>
+			{%endfor%}
+		</select>
+	</div>
+</div>
+<div class="row my-row">
+	<div class="col-md-1">Sub-Category</div>
+	<div class="col-md-4">
+		<select name="subcid" required class="form-control">
+			<option value="-1">all</option>
+		</select>
+	</div>
+</div>
+<div class="row my-row">
+	<div class="col-md-1">Time Order</div>
+	<div class="col-md-2">
+		<label><input type="radio" name="sort" value="asc"> ASC</label>
+	</div>
+	<div class="col-md-2">
+		<label><input type="radio" name="sort" value="desc" checked> DESC</label>
+	</div>
+</div>
+<hr>
+<table id="pList" class="table">
+	<thead>
+    	<th style="width:10%">#</th>
+    	<th style="width:30%">Name</th>
+    	<th style="width:30%">Time</th>
+    	<th style="width:30%"></th>
+    </thead>
+	<tbody>
+		{% for index,item in list %}
+		<tr data-id="{{item.id}}">
+			<td>{{index+1}}</td>
+			<td>{{item.name}}</td>
+			<td>{{item.time|date('Y-m-d H:i:s')}}</td>
+			<td>
+				<a type="button" href="/product/detail?id={{item.id}}" class="cat-sub btn btn-default btn-sm">
+				  <span class="glyphicon glyphicon-zoom-in"></span> View Detail
+				</a>
+				<a type="button" href="/admin/product/edit?id={{item.id}}" class="cat-edit btn btn-default btn-sm">
+				  <span class="glyphicon glyphicon-pencil"></span> 编辑
+				</a>
+				<button type="button" class="cat-del btn btn-danger btn-sm">
+				  <span class="glyphicon glyphicon-remove"></span> 删除
+				</button>
+			</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+
+<script type="text/javascript" src="/resource/js/lib/jquery.js"></script>
+<script type="text/javascript" src="/resource/js/product/product.js"></script>
+{% endblock %}

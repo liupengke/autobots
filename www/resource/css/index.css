@@ -1,0 +1,118 @@
+.new-product{
+	width: 960px;
+	margin: 16px auto;
+	height: 291px;
+	background: #FFF;
+
+}
+
+.new-product .title{
+	padding-left: 25px;
+	font-size: 16px;
+	color: #745C50;
+	font-weight: bold;
+	height: 35px;
+	line-height: 35px;
+}
+.new-product li{
+	float: left;
+	width: 222px;
+	height: 235px;
+	margin: 0px 8px;
+	border: 1px solid #787878;
+	text-align: center;
+}
+.new-product li a{
+	text-decoration: none;
+}
+.new-product li img{
+	margin: 5px auto 0;
+	width: 216px;
+	height: 165px;
+	display: block;
+}
+.new-product li div{
+	display: block;
+	width: 100%;
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	color: #000;
+	font-size: 15px;
+	font-weight: bold;
+}
+.new-product li a:hover div{
+	color: red;
+	text-decoration: underline;
+}
+.new-product li span{
+	display: inline-block;
+	border: none;
+	outline: none;
+	width: 93px;
+	height: 25px;
+	text-align: center;
+	background: url(/resource/img/new-product-btn.png) no-repeat;
+	color: #FFF;
+	line-height: 25px;
+}
+.new-product li span:hover{
+	text-decoration: underline;
+}
+
+.more-info{
+	width: 960px;
+	margin: 12px auto;
+	height: 276px;
+	background: #FFF;
+}
+.more-info .item{
+	float: left;
+	width: 289px;
+	margin: 0px 15px;
+}
+.more-info .title{
+	width: 100%;
+	height: 43px;
+	line-height: 43px;
+	color: #76584D;
+	font-size: 15px;
+	font-weight: bold;
+}
+.more-info .title span{
+	float: left;
+}
+.more-info .title a{
+	float: right;
+	width: 53px;
+	height: 43px;
+	line-height: 43px;
+	display: block;
+	color: #222;
+	font-weight: normal;
+	text-align: center;
+	background: url(/resource/img/more-bg.jpg) left center no-repeat;
+	text-decoration: none;
+}
+.more-info .item img{
+	width: 100%;
+	height: 133px;
+}
+.more-info .item .desc{
+	width: 100%;
+	height: 89px;
+	line-height: 22px;
+	color: #020202;
+	overflow: hidden;
+}
+.more-info .item .desc a {
+	float: left;
+	width: 185px;
+	padding-left: 15px;
+	background: url(/resource/img/arrow2.jpg) 5px center no-repeat;
+}
+.more-info .item .desc span {
+	float: right;
+	width: 89px;
+	text-align: right;
+}
