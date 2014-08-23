@@ -402,7 +402,7 @@
                     if ( stats.successNum ) {
                         alert( '上传成功' );
 
-                        location.href="/admin/product/photodone?id="+SYS_CONF.productId;
+                        location.reload();
                     } else {
                         // 没有成功的图片，重设
                         state = 'done';

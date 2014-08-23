@@ -3,6 +3,9 @@ module.exports = {
   port: 80, //监听的端口
   app_group_list: ['Home', 'Admin'], //分组列表
 
+  //默认情况下开启自定义路由
+  url_route_on: true,
+
   //模版引擎相关的配置
   tpl_content_type: "text/html", //模版输出时发送的Content-Type头信息
   tpl_file_suffix: ".html", //模版文件名后缀

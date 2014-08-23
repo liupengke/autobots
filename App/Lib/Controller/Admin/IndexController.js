@@ -5,11 +5,9 @@ module.exports = Controller("Admin/BaseController", function(){
     		var self = this;
       		return this.session('userInfo').then(function(data){
       			if(isEmpty(data)){
-      				return self.redirect('/admin/index/login');
+      				return  self.redirect('/admin/index/login');
       			}else{
-      				self.userInfo = data;
-      				self.assign('userInfo', data);
-      				self.display();
+      				return self.redirect('/admin/product');
       			}
       		})
     	},

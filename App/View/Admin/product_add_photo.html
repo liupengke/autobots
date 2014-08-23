@@ -3,12 +3,51 @@
 {% parent %}
     <link rel="stylesheet" type="text/css" href="/resource/css/uploader/webuploader.css" />
     <link rel="stylesheet" type="text/css" href="/resource/css/uploader/style.css" />
+    <style type="text/css">
+    .photo-list{
+        border: 2px solid #666;
+    }
+    .photo-list li{
+        border: 1px solid #999;
+        margin: 5px;
+        float: left;
+        width: 252px;
+        height: 252px;
+
+        list-style: none;
+        padding: 0;
+
+        position: relative;
+    }
+    .photo-list li img{
+        border: none;
+        width: 250px;
+        height: 250px;
+        border: 1px solid #fff;
+    }
+
+    .photo-list .tool-panel{
+        background-color: rgba(0,0,0,0.5);
+        width: 100px;
+        padding: 5px;
+        height: 30px;
+        position: absolute;
+        top: 2px;
+        right: 2px;
+        border-radius: 2px;
+    }
+    </style>
 {% endblock %}
 {% block "pageTitle" %}
     {% if isEdit%}Modify{% else %}Add{% endif%} photos for {{product.name}}
 {% endblock %}
 {% block "adminContent"%}
-<h3>上传照片</h3>
+{% if isEdit%}
+<h3>管理已上传照片</h3>
+<ul class="photo-list clearfix">
+</ul>
+{% endif %}
+<h3>上传新照片</h3>
 <div>
     <div id="wrapper">
         <div id="container">
@@ -34,12 +73,40 @@
         </div>
     </div>
 </div>
+<div class="loading-mask"><img src="/resource/img/loading.gif" /></div>
+<script id="tpl" type="text/html">
+{for(var i=0, len=$list.length;i<len;i++)}
+    <li data-index="{i}">
+        <img src="/resource/img/pimg/{$list[i]}">
+        <div class="tool-panel">
+            <button type="button" class="btn btn-default btn-xs op-forward">
+                <span class="glyphicon glyphicon-arrow-left"></span>
+            </button>
+            <button type="button" class="btn btn-default btn-xs op-afterward">
+                <span class="glyphicon glyphicon-arrow-right"></span>
+            </button>
+            <button type="button" class="btn btn-danger btn-xs op-del">
+                <span class="glyphicon glyphicon-remove"></span>
+            </button>
+        </div>
+    </li>
+{/for}
+</script>
 <script>
     var SYS_CONF = {
         productId: {{product.id}}
     }
+    {% if isEdit%}
+    var photos = [
+        {% for index,imgurl in product.photo %}
+        '{{imgurl|e("js")}}'{% if loop.last %}{% else %},{% endif %}
+        {% endfor %}
+    ];
+    {% endif %}
 </script>
 <script type="text/javascript" src="/resource/js/lib/jquery.js"></script>
+<script type="text/javascript" src="/resource/js/lib/qwrap.core.js"></script>
 <script type="text/javascript" src="/resource/js/uploader/webuploader.html5only.js"></script>
 <script type="text/javascript" src="/resource/js/uploader/upload.js"></script>
+<script type="text/javascript" src="/resource/js/product/photo.js"></script>
 {% endblock %}

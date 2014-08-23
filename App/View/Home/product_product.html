@@ -13,7 +13,7 @@
 			{% include "p-title.inc.html" %}
 			<div class="main-info clearfix">
 				<div class="img">
-					<img src="/resource/img/demo/120.jpg" data-big="/resource/img/demo/120.jpg">
+					<img src="/resource/img/pimg/{{product.photo[0]}}" data-big="/resource/img/pimg/{{product.photo[0]}}">
 					<div class="zoom-pad"></div>
 				</div>
 
@@ -21,48 +21,48 @@
 					<img src="about:blank">
 				</div>
 				<div class="meta-list-box">
-					<div class="p-name">Product Name:N-Fire LA2 Tank</div>
+					<div class="p-name">{{product.name}}</div>
 					<div class="meta-list clearfix">
 						<h2>Parameters</h2>
 						<dl>
 							<dt>Brand</dt>
-							<dd>Smokjoy</dd>
+							<dd>{{product.brand}}</dd>
 						</dl>
 						<dl>
 							<dt>Model</dt>
-							<dd>N-Fire LA2 Tank</dd>
+							<dd>{{product.model}}</dd>
 						</dl>
 						<dl>
 							<dt>Model Number</dt>
-							<dd>N-Fire LA2 Tank</dd>
+							<dd>{{product.mnumber}}</dd>
 						</dl>
 						<dl>
 							<dt>Size</dt>
-							<dd>82(H)*22(D)</dd>
+							<dd>{{product.size}}</dd>
 						</dl>
 						<dl>
 							<dt>Weight</dt>
-							<dd>0.25KGS</dd>
+							<dd>{{product.weight}}</dd>
 						</dl>
 						<dl>
 							<dt>Color</dt>
-							<dd>Reddish Brown</dd>
+							<dd>{{product.color}}</dd>
 						</dl>
 						<dl>
 							<dt>payment</dt>
-							<dd>PayPal, T/T, Western Union</dd>
+							<dd>{{product.payment}}</dd>
 						</dl>
 						<dl>
 							<dt>Atomizer Capacity</dt>
-							<dd>2.5mL</dd>
+							<dd>{{product.atomizer}}</dd>
 						</dl>
 						<dl>
 							<dt>Battery Capacity</dt>
-							<dd>Best Fit for N-Fire II VV and N-Fire Max Mod</dd>
+							<dd>{{product.battery}}</dd>
 						</dl>
 						<dl>
 							<dt>Voltage</dt>
-							<dd>3.3V-4.8V for N-Fire II VV</dd>
+							<dd>{{product.voltage}}</dd>
 						<dl>
 					</div>
 				</div>
@@ -72,7 +72,9 @@
 				<button class="gallary-btn gallary-next"></button>
 				<div class="gallary">
 					<ul>
-						<li class="focus"><img src="/resource/img/demo/108.jpg"></li>
+						{% for imgurl in product.photo %}
+						<li class="focus"><img src="/resource/img/pimg/{{imgurl}}"></li>
+						{% endfor %}
 					</ul>
 				</div>
 			</div>
@@ -82,8 +84,5 @@
 
 	{% include "hot-list.inc.html" %}
 	{% include "footer.inc.html" %}
-{% endblock %}
-
-{% block page_js %}
-	<script type="text/javascript" src="/js/lib/require.js" data-main="/js/index/zoom"></script>
+	<script type="text/javascript" src="/resource/js/lib/require.js" data-main="/resource/js/index/zoom"></script>
 {% endblock %}

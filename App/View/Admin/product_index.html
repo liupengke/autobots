@@ -7,8 +7,9 @@
 	border-bottom: 1px dotted #999;
 }
 </style>
+<form action="/admin/product" method="get">
 <div class="row my-row">
-	<button  type="button" class="btn btn-info btn-lg" style="float:left">
+	<button  type="submit" class="btn btn-info btn-lg" style="float:left">
 		<span class="glyphicon glyphicon-search"></span> Search
 	</button>
 
@@ -18,15 +19,13 @@
 
 	<a href="/admin/product/add" type="button" class="btn btn-success btn-lg" style="float:right">
 		<span class="glyphicon glyphicon-plus"></span> Add Product
-	</a>
-
-	
+	</a>	
 </div>
 <div class="row my-row">
 	<div class="col-md-1">Key Word</div>
 	<div class="col-md-4">
 		<div class="input-group">
-	    	<input type="text" placeholder="keyword" class="form-control">
+	    	<input name="kw" type="text" value="{{keyword}}" placeholder="keyword" class="form-control">
 	    </div>
 	</div>
 </div>
@@ -34,9 +33,9 @@
 	<div class="col-md-1">Category</div>
 	<div class="col-md-4">
 		<select name="cid" required class="form-control">
-			<option value="-1">all</option>
+			<option value="-1" {%if cid=="-1"%}selected{%endif%}>all</option>
 			{%for index,cls in classList%}
-			<option value="{{cls.id}}">{{cls.name}}</option>
+			<option value="{{cls.id}}" {%if cid==cls.id%}selected{%endif%}>{{cls.name}}</option>
 			{%endfor%}
 		</select>
 	</div>
@@ -46,18 +45,24 @@
 	<div class="col-md-4">
 		<select name="subcid" required class="form-control">
 			<option value="-1">all</option>
+			{%if subList%}
+			{%for index,cls in subList%}
+			<option value="{{cls.id}}" {%if subcid==cls.id%}selected{%endif%}>{{cls.name}}</option>
+			{%endfor%}
+			{%endif%}
 		</select>
 	</div>
 </div>
 <div class="row my-row">
 	<div class="col-md-1">Time Order</div>
 	<div class="col-md-2">
-		<label><input type="radio" name="sort" value="asc"> ASC</label>
+		<label><input type="radio" name="order" value="asc" {%if order=="asc"%}checked{%endif%}> ASC</label>
 	</div>
 	<div class="col-md-2">
-		<label><input type="radio" name="sort" value="desc" checked> DESC</label>
+		<label><input type="radio" name="order" value="desc" {%if order!="asc"%}checked{%endif%}> DESC</label>
 	</div>
 </div>
+</form>
 <hr>
 <table id="pList" class="table">
 	<thead>
@@ -73,13 +78,13 @@
 			<td>{{item.name}}</td>
 			<td>{{item.time|date('Y-m-d H:i:s')}}</td>
 			<td>
-				<a type="button" href="/product/detail?id={{item.id}}" class="cat-sub btn btn-default btn-sm">
+				<a type="button" href="/product/{{item.id}}" class="cat-sub btn btn-default btn-sm">
 				  <span class="glyphicon glyphicon-zoom-in"></span> View Detail
 				</a>
 				<a type="button" href="/admin/product/edit?id={{item.id}}" class="cat-edit btn btn-default btn-sm">
 				  <span class="glyphicon glyphicon-pencil"></span> 编辑
 				</a>
-				<button type="button" class="cat-del btn btn-danger btn-sm">
+				<button type="button" class="p-del btn btn-danger btn-sm">
 				  <span class="glyphicon glyphicon-remove"></span> 删除
 				</button>
 			</td>

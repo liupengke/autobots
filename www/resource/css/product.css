@@ -49,6 +49,7 @@
 	top: 0;
 	width: 210px;
 	background: #B2070D;
+	z-index: 2;
 }
 .cat-item:hover>ul{
 	display: block;

@@ -17,7 +17,18 @@ function getSubclass(){
 	});
 }
 function initEvent(){
-	$('select[name=cid]').change(getSubclass)
+	$('select[name=cid]').change(getSubclass);
+
+	$('#pList').delegate('.p-del', 'click', function(){
+		var tr = $(this).parents('tr');
+			id = tr.data('id');
+		$.post('/admin/product/delproduct', {id: id}, function(data){
+			if(data.errno==0)
+				tr.remove();
+			else
+				alert('delete failed!');
+		}, 'json');
+	});
 }
 $(function(){
 	initEvent();

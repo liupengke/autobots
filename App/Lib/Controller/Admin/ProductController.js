@@ -4,7 +4,7 @@ module.exports = Controller("Admin/BaseController", function(){
     	indexAction: function(){
             var self = this,
                 search = {},
-                keyword = this.param('keyword'),
+                keyword = this.param('kw'),
                 cid = this.param('cid'),
                 subcid = this.param('subcid'),
                 order = this.param('order');
@@ -19,11 +19,22 @@ module.exports = Controller("Admin/BaseController", function(){
                 search.subcid = subcid;
             }
 
-            D('Class').select().then(function(data){
+            D('Class').where(search).select().then(function(data){
                 self.assign('classList', data);
+                self.assign('keyword', keyword);
+                self.assign('cid', cid);
+                self.assign('subcid', subcid);
+                self.assign('order', order);
                 D('Product').where(search).order('time '+(order=="asc" ? 'ASC' : 'DESC')).select().then(function(list){
                     self.assign('list', list);
-                    self.display();
+                    if(subcid && parseInt(subcid, 10)>0){
+                        D('Subclass').where({pid: subcid}).select().then(function(subList){
+                            self.assign('subList', subList);
+                            self.display();
+                        });
+                    }
+                    else
+                        self.display();
                 });
             });            
     	},
@@ -39,11 +50,6 @@ module.exports = Controller("Admin/BaseController", function(){
             var msg,
                 self = this,
                 id = this.post('id');
-            if(id){
-                this.assign('isEdit', true);
-            }else{
-                this.assign('isEdit', false);
-            }
             if(!this.post('cid')){
                 msg = 'no category select';
             }
@@ -78,19 +84,59 @@ module.exports = Controller("Admin/BaseController", function(){
                 };
                 if(id){
                     D('Product').where({id: id}).update(item).then(function(count){
-                        item.id = id;
-                        self.assign('product', item);
-                        console.log(data);
-                        self.display('Admin/product_add_photo.html');
+                        var url = '/admin/addphoto?isEdit=1&id='+id;
+                        self.redirect(url);
                     })
                 }else{
                     D('Product').add(item).then(function(_id){
-                        item.id = _id;
-                        self.assign('product', item);
-                        self.display('Admin/product_add_photo.html');  
+                        var url = '/admin/addphoto?id='+_id;
+                        self.redirect(url);  
                     })
                 }
             }
+        },
+        addPhotoAction: function(){
+            var id = this.post('id'),
+                isEdit = this.post('isEdit'),
+                self = this;
+            this.assign('isEdit', isEdit? true: false);
+            D('Product').where({id: id}).find().then(function(data){
+                data.photo = JSON.parse(data.photo);
+                self.assign('product', data);
+                self.display();
+            });
+        },
+        delproductAction: function(){
+            var id = this.param('id');
+            var self = this;
+            D('Product').where({id:id}).delete().then(function(count){
+                if(count)
+                    self.success();
+                else
+                    self.fail(1001, 'delete error');
+            });
+        },
+        editAction: function(){
+            var id = this.param('id');
+            var self = this;
+            D('Product').where({id: id}).find().then(function(product){
+                self.assign('isEdit', true);
+                console.log(product)
+                self.assign('product', product);
+                D('Class').select().then(function(data){
+                    self.assign('classList', data);
+
+                    if(product.cid){
+                        D('Subclass').where({pid: product.cid}).select().then(function(list){
+                            self.assign('subList', list);
+                            self.display('Admin/product_add.html');
+                        });
+                    }else{
+                        self.display('Admin/product_add.html');
+                    }
+                });
+
+            });
         },
     	catAction: function(){
     		var self = this;
@@ -234,6 +280,37 @@ module.exports = Controller("Admin/BaseController", function(){
         photodoneAction: function(){
             this.assign('productId', this.get('id'));
             this.display('Admin/product_add_suc.html');
+        },
+        photoeditAction: function(){
+            var id = this.post('productId'),
+                op = this.post('op'),
+                index = parseInt(this.post('index'), 10),
+                self = this;
+
+            D('Product').where({id: id}).find().then(function(data){
+                var photos = JSON.parse(data.photo);
+                if(op == 'forward'){
+                    if(index !=0){
+                        var img = photos[index-1];
+                        photos[index-1] = photos[index];
+                        photos[index] = img;
+                    }
+                }else if(op=='afterward'){
+                    if(index+1<photos.length){
+                        var img = photos[index+1];
+                        photos[index+1] = photos[index];
+                        photos[index] = img;
+                    }
+                }else if(op=='del'){
+                    photos.splice(index, 1);
+
+                }
+                D('Product').where({id: id}).update({
+                    photo: JSON.stringify(photos)
+                }).then(function(){
+                    self.success({photos: photos});
+                })
+            });
         }
 	};
 });
